@@ -1,0 +1,64 @@
+{
+  "cli_args": {
+    "root_dir": "/home/dxzielinski/Downloads/archive/PetImages",
+    "detector": "mmd",
+    "drift_target": "data",
+    "modality": "both",
+    "drift_type": "abrupt",
+    "k": 250,
+    "n_total": 5000,
+    "window_size": 50,
+    "threshold_quantile": 0.95,
+    "warning_quantile": 0.85,
+    "projection": "centroid_dist",
+    "ewma_alpha": 0.01,
+    "min_words": 5,
+    "max_words": 16,
+    "label_aware_prob": 0.0,
+    "image_label_aware_prob": 1.0,
+    "text_features": 256,
+    "image_weight": 1.0,
+    "text_weight": 1.0,
+    "detection_horizon": null,
+    "num_detections": null,
+    "seed": 42,
+    "device": "cuda",
+    "out_dir": "output_results/runs/20260505_200205_142450_mmd_both_abrupt"
+  },
+  "resolved": {
+    "drift_metadata": {
+      "drift_type": "abrupt",
+      "abrupt_k": 250,
+      "k_start": null,
+      "k_end": null,
+      "k_list": null,
+      "gradual_pairs": null
+    },
+    "detector": "mmd",
+    "detector_name": "MMD-RBF (adjacent windows) [mmd]",
+    "modality": "both",
+    "drift_target": "data",
+    "classifier": {},
+    "detection_horizon": 50,
+    "max_detections": null
+  },
+  "timing_summary": {
+    "samples": 5000,
+    "mean_embedding_time_ms": 41.14927766700394,
+    "mean_detector_time_ms": 2.1177406830041945,
+    "mean_total_time_ms": 43.26797334819384,
+    "median_total_time_ms": 42.945666499917934,
+    "p95_total_time_ms": 54.85648560020309,
+    "total_wall_time_ms": 216339.8667409692,
+    "throughput_samples_per_s": 23.11178274870005
+  },
+  "artifacts": {
+    "out_dir": "output_results/runs/20260505_200205_142450_mmd_both_abrupt",
+    "manifest_path": "output_results/runs/20260505_200205_142450_mmd_both_abrupt/stream_manifest_abrupt.csv",
+    "results_path": "output_results/runs/20260505_200205_142450_mmd_both_abrupt/drift_scores_abrupt.csv",
+    "metrics_path": "output_results/runs/20260505_200205_142450_mmd_both_abrupt/drift_metrics_abrupt.json",
+    "scatter_path": "output_results/runs/20260505_200205_142450_mmd_both_abrupt/stream_scatter_abrupt.png",
+    "score_plot_path": "output_results/runs/20260505_200205_142450_mmd_both_abrupt/drift_scores_abrupt.png",
+    "timing_plot_path": "output_results/runs/20260505_200205_142450_mmd_both_abrupt/processing_time_abrupt.png"
+  }
+}

@@ -1,0 +1,2546 @@
+{
+  "model_name": "MMD-RBF (adjacent windows) [mmd]",
+  "modality": "both",
+  "drift_target": "data",
+  "classifier": {},
+  "drift_type": "abrupt",
+  "class_names": [
+    "Cat",
+    "Dog"
+  ],
+  "class_to_id": {
+    "Cat": 0,
+    "Dog": 1
+  },
+  "real_k": [
+    250
+  ],
+  "predicted_k": [
+    151,
+    152,
+    158,
+    159,
+    160,
+    161,
+    162,
+    163,
+    228,
+    229,
+    230,
+    231,
+    232,
+    233,
+    234,
+    235,
+    236,
+    237,
+    238,
+    239,
+    240,
+    241,
+    242,
+    243,
+    244,
+    245,
+    267,
+    268,
+    269,
+    270,
+    271,
+    272,
+    273,
+    274,
+    275,
+    276,
+    277,
+    278,
+    279,
+    280,
+    281,
+    282,
+    283,
+    284,
+    285,
+    286,
+    287,
+    288,
+    289,
+    290,
+    291,
+    292,
+    293,
+    294,
+    295,
+    296,
+    297,
+    298,
+    299,
+    300,
+    301,
+    302,
+    303,
+    2141,
+    2142,
+    2143,
+    2144,
+    2145,
+    2146,
+    2147,
+    2148,
+    2149,
+    2150,
+    2258,
+    2259,
+    2260,
+    2261,
+    2262,
+    2308,
+    2311,
+    2312,
+    2313,
+    2314,
+    2316,
+    2317,
+    2318,
+    2492,
+    2928,
+    3082,
+    3083,
+    3084,
+    3085,
+    3086,
+    3087,
+    3088,
+    3089,
+    3090,
+    3091,
+    3092,
+    3094,
+    3095,
+    3100,
+    3244,
+    3245,
+    3246,
+    3247,
+    3248,
+    3249,
+    3253,
+    3294,
+    3295,
+    3296,
+    3297,
+    3298,
+    3299,
+    3300,
+    3301,
+    3302,
+    3303,
+    3304,
+    3305,
+    3306,
+    3307,
+    3308,
+    3309,
+    3310,
+    3408,
+    3409,
+    3410,
+    3411,
+    3412,
+    3413,
+    3414,
+    3773,
+    3775,
+    3776,
+    3777,
+    3778,
+    3779,
+    3780,
+    3781,
+    3782,
+    3783,
+    3784,
+    3785,
+    3786,
+    3787,
+    3996,
+    3997,
+    3998,
+    4076,
+    4077,
+    4078,
+    4079,
+    4320,
+    4321,
+    4508,
+    4509,
+    4513,
+    4514,
+    4531,
+    4649,
+    4650,
+    4761,
+    4763,
+    4768,
+    4769,
+    4770,
+    4771,
+    4772,
+    4773,
+    4774
+  ],
+  "detection_horizon": 50,
+  "monitoring_start": 0,
+  "first_possible_decision": 100,
+  "monitoring_end": 4999,
+  "true_drift_events": [
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "match_start": 250,
+      "match_end": 300,
+      "event_label": "drift_1",
+      "event_interval_start": 250,
+      "event_interval_end": 250
+    }
+  ],
+  "matched_detections": [
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 267,
+      "detection_delay": 17,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 27
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 268,
+      "detection_delay": 18,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 28
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 269,
+      "detection_delay": 19,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 29
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 270,
+      "detection_delay": 20,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 30
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 271,
+      "detection_delay": 21,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 31
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 272,
+      "detection_delay": 22,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 32
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 273,
+      "detection_delay": 23,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 33
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 274,
+      "detection_delay": 24,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 34
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 275,
+      "detection_delay": 25,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 35
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 276,
+      "detection_delay": 26,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 36
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 277,
+      "detection_delay": 27,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 37
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 278,
+      "detection_delay": 28,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 38
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 279,
+      "detection_delay": 29,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 39
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 280,
+      "detection_delay": 30,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 40
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 281,
+      "detection_delay": 31,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 41
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 282,
+      "detection_delay": 32,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 42
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 283,
+      "detection_delay": 33,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 43
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 284,
+      "detection_delay": 34,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 44
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 285,
+      "detection_delay": 35,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 45
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 286,
+      "detection_delay": 36,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 46
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 287,
+      "detection_delay": 37,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 47
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 288,
+      "detection_delay": 38,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 48
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 289,
+      "detection_delay": 39,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 49
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 290,
+      "detection_delay": 40,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 50
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 291,
+      "detection_delay": 41,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 51
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 292,
+      "detection_delay": 42,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 52
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 293,
+      "detection_delay": 43,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 53
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 294,
+      "detection_delay": 44,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 54
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 295,
+      "detection_delay": 45,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 55
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 296,
+      "detection_delay": 46,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 56
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 297,
+      "detection_delay": 47,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 57
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 298,
+      "detection_delay": 48,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 58
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 299,
+      "detection_delay": 49,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 59
+    },
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 300,
+      "detection_delay": 50,
+      "match_start": 250,
+      "match_end": 300,
+      "alarm_event_id": 60
+    }
+  ],
+  "missed_detections": [],
+  "valid_detections": [
+    {
+      "event_id": 1,
+      "real_k": 250,
+      "predicted_k": 267,
+      "detection_delay": 17,
+      "valid_start": 250,
+      "valid_end": 4999,
+      "alarm_event_id": 27
+    }
+  ],
+  "missed_detection_events": [],
+  "false_alarms": [
+    {
+      "alarm_event_id": 1,
+      "predicted_k": 151,
+      "window_center": 126.5,
+      "drift_score": 0.0009546675878481237
+    },
+    {
+      "alarm_event_id": 2,
+      "predicted_k": 152,
+      "window_center": 127.5,
+      "drift_score": 0.0010408673930222268
+    },
+    {
+      "alarm_event_id": 3,
+      "predicted_k": 158,
+      "window_center": 133.5,
+      "drift_score": 0.0012302905721907065
+    },
+    {
+      "alarm_event_id": 4,
+      "predicted_k": 159,
+      "window_center": 134.5,
+      "drift_score": 0.0019217165670124547
+    },
+    {
+      "alarm_event_id": 5,
+      "predicted_k": 160,
+      "window_center": 135.5,
+      "drift_score": 0.0021635700553408466
+    },
+    {
+      "alarm_event_id": 6,
+      "predicted_k": 161,
+      "window_center": 136.5,
+      "drift_score": 0.0017894839878913604
+    },
+    {
+      "alarm_event_id": 7,
+      "predicted_k": 162,
+      "window_center": 137.5,
+      "drift_score": 0.0018388677059610892
+    },
+    {
+      "alarm_event_id": 8,
+      "predicted_k": 163,
+      "window_center": 138.5,
+      "drift_score": 0.002465447608097082
+    },
+    {
+      "alarm_event_id": 9,
+      "predicted_k": 228,
+      "window_center": 203.5,
+      "drift_score": 0.0021699823655021433
+    },
+    {
+      "alarm_event_id": 10,
+      "predicted_k": 229,
+      "window_center": 204.5,
+      "drift_score": 0.002856960253956764
+    },
+    {
+      "alarm_event_id": 11,
+      "predicted_k": 230,
+      "window_center": 205.5,
+      "drift_score": 0.002598781757086832
+    },
+    {
+      "alarm_event_id": 12,
+      "predicted_k": 231,
+      "window_center": 206.5,
+      "drift_score": 0.003020099770687401
+    },
+    {
+      "alarm_event_id": 13,
+      "predicted_k": 232,
+      "window_center": 207.5,
+      "drift_score": 0.0036735705776483885
+    },
+    {
+      "alarm_event_id": 14,
+      "predicted_k": 233,
+      "window_center": 208.5,
+      "drift_score": 0.003915223853710681
+    },
+    {
+      "alarm_event_id": 15,
+      "predicted_k": 234,
+      "window_center": 209.5,
+      "drift_score": 0.005233874729295707
+    },
+    {
+      "alarm_event_id": 16,
+      "predicted_k": 235,
+      "window_center": 210.5,
+      "drift_score": 0.006738574543717291
+    },
+    {
+      "alarm_event_id": 17,
+      "predicted_k": 236,
+      "window_center": 211.5,
+      "drift_score": 0.006509202848478446
+    },
+    {
+      "alarm_event_id": 18,
+      "predicted_k": 237,
+      "window_center": 212.5,
+      "drift_score": 0.006086183992504268
+    },
+    {
+      "alarm_event_id": 19,
+      "predicted_k": 238,
+      "window_center": 213.5,
+      "drift_score": 0.005815549575846846
+    },
+    {
+      "alarm_event_id": 20,
+      "predicted_k": 239,
+      "window_center": 214.5,
+      "drift_score": 0.0070880135081915485
+    },
+    {
+      "alarm_event_id": 21,
+      "predicted_k": 240,
+      "window_center": 215.5,
+      "drift_score": 0.006313034573650067
+    },
+    {
+      "alarm_event_id": 22,
+      "predicted_k": 241,
+      "window_center": 216.5,
+      "drift_score": 0.0067783534696646
+    },
+    {
+      "alarm_event_id": 23,
+      "predicted_k": 242,
+      "window_center": 217.5,
+      "drift_score": 0.007026830191125377
+    },
+    {
+      "alarm_event_id": 24,
+      "predicted_k": 243,
+      "window_center": 218.5,
+      "drift_score": 0.006789701071403198
+    },
+    {
+      "alarm_event_id": 25,
+      "predicted_k": 244,
+      "window_center": 219.5,
+      "drift_score": 0.006091069804687432
+    },
+    {
+      "alarm_event_id": 26,
+      "predicted_k": 245,
+      "window_center": 220.5,
+      "drift_score": 0.007029207261860293
+    },
+    {
+      "alarm_event_id": 61,
+      "predicted_k": 301,
+      "window_center": 276.5,
+      "drift_score": 0.06549797413371916
+    },
+    {
+      "alarm_event_id": 62,
+      "predicted_k": 302,
+      "window_center": 277.5,
+      "drift_score": 0.06390964863738724
+    },
+    {
+      "alarm_event_id": 63,
+      "predicted_k": 303,
+      "window_center": 278.5,
+      "drift_score": 0.06206382799914012
+    },
+    {
+      "alarm_event_id": 64,
+      "predicted_k": 2141,
+      "window_center": 2116.5,
+      "drift_score": 0.005544935423342445
+    },
+    {
+      "alarm_event_id": 65,
+      "predicted_k": 2142,
+      "window_center": 2117.5,
+      "drift_score": 0.005853406819651186
+    },
+    {
+      "alarm_event_id": 66,
+      "predicted_k": 2143,
+      "window_center": 2118.5,
+      "drift_score": 0.005560933213177077
+    },
+    {
+      "alarm_event_id": 67,
+      "predicted_k": 2144,
+      "window_center": 2119.5,
+      "drift_score": 0.005243243124805841
+    },
+    {
+      "alarm_event_id": 68,
+      "predicted_k": 2145,
+      "window_center": 2120.5,
+      "drift_score": 0.005543762132928953
+    },
+    {
+      "alarm_event_id": 69,
+      "predicted_k": 2146,
+      "window_center": 2121.5,
+      "drift_score": 0.0047520036041577285
+    },
+    {
+      "alarm_event_id": 70,
+      "predicted_k": 2147,
+      "window_center": 2122.5,
+      "drift_score": 0.005078072012235868
+    },
+    {
+      "alarm_event_id": 71,
+      "predicted_k": 2148,
+      "window_center": 2123.5,
+      "drift_score": 0.0054641053757672475
+    },
+    {
+      "alarm_event_id": 72,
+      "predicted_k": 2149,
+      "window_center": 2124.5,
+      "drift_score": 0.0060794035321326545
+    },
+    {
+      "alarm_event_id": 73,
+      "predicted_k": 2150,
+      "window_center": 2125.5,
+      "drift_score": 0.00498609698500474
+    },
+    {
+      "alarm_event_id": 74,
+      "predicted_k": 2258,
+      "window_center": 2233.5,
+      "drift_score": 0.005607934852161933
+    },
+    {
+      "alarm_event_id": 75,
+      "predicted_k": 2259,
+      "window_center": 2234.5,
+      "drift_score": 0.005289140668621517
+    },
+    {
+      "alarm_event_id": 76,
+      "predicted_k": 2260,
+      "window_center": 2235.5,
+      "drift_score": 0.005799170925999131
+    },
+    {
+      "alarm_event_id": 77,
+      "predicted_k": 2261,
+      "window_center": 2236.5,
+      "drift_score": 0.0058743800313398875
+    },
+    {
+      "alarm_event_id": 78,
+      "predicted_k": 2262,
+      "window_center": 2237.5,
+      "drift_score": 0.005124471437302991
+    },
+    {
+      "alarm_event_id": 79,
+      "predicted_k": 2308,
+      "window_center": 2283.5,
+      "drift_score": 0.004728261281913282
+    },
+    {
+      "alarm_event_id": 80,
+      "predicted_k": 2311,
+      "window_center": 2286.5,
+      "drift_score": 0.00530884442668178
+    },
+    {
+      "alarm_event_id": 81,
+      "predicted_k": 2312,
+      "window_center": 2287.5,
+      "drift_score": 0.005156814010275346
+    },
+    {
+      "alarm_event_id": 82,
+      "predicted_k": 2313,
+      "window_center": 2288.5,
+      "drift_score": 0.005370024584111843
+    },
+    {
+      "alarm_event_id": 83,
+      "predicted_k": 2314,
+      "window_center": 2289.5,
+      "drift_score": 0.006615142274313368
+    },
+    {
+      "alarm_event_id": 84,
+      "predicted_k": 2316,
+      "window_center": 2291.5,
+      "drift_score": 0.005993636586058004
+    },
+    {
+      "alarm_event_id": 85,
+      "predicted_k": 2317,
+      "window_center": 2292.5,
+      "drift_score": 0.0062719330717617705
+    },
+    {
+      "alarm_event_id": 86,
+      "predicted_k": 2318,
+      "window_center": 2293.5,
+      "drift_score": 0.005747794149793872
+    },
+    {
+      "alarm_event_id": 87,
+      "predicted_k": 2492,
+      "window_center": 2467.5,
+      "drift_score": 0.005833632058480753
+    },
+    {
+      "alarm_event_id": 88,
+      "predicted_k": 2928,
+      "window_center": 2903.5,
+      "drift_score": 0.00426399703750302
+    },
+    {
+      "alarm_event_id": 89,
+      "predicted_k": 3082,
+      "window_center": 3057.5,
+      "drift_score": 0.0040047578757652635
+    },
+    {
+      "alarm_event_id": 90,
+      "predicted_k": 3083,
+      "window_center": 3058.5,
+      "drift_score": 0.004283696996458808
+    },
+    {
+      "alarm_event_id": 91,
+      "predicted_k": 3084,
+      "window_center": 3059.5,
+      "drift_score": 0.0047541968968100035
+    },
+    {
+      "alarm_event_id": 92,
+      "predicted_k": 3085,
+      "window_center": 3060.5,
+      "drift_score": 0.006117044955554651
+    },
+    {
+      "alarm_event_id": 93,
+      "predicted_k": 3086,
+      "window_center": 3061.5,
+      "drift_score": 0.005235556009526632
+    },
+    {
+      "alarm_event_id": 94,
+      "predicted_k": 3087,
+      "window_center": 3062.5,
+      "drift_score": 0.005187975445306137
+    },
+    {
+      "alarm_event_id": 95,
+      "predicted_k": 3088,
+      "window_center": 3063.5,
+      "drift_score": 0.006101924902321421
+    },
+    {
+      "alarm_event_id": 96,
+      "predicted_k": 3089,
+      "window_center": 3064.5,
+      "drift_score": 0.0057628686070627655
+    },
+    {
+      "alarm_event_id": 97,
+      "predicted_k": 3090,
+      "window_center": 3065.5,
+      "drift_score": 0.005966049511128335
+    },
+    {
+      "alarm_event_id": 98,
+      "predicted_k": 3091,
+      "window_center": 3066.5,
+      "drift_score": 0.005201680574976497
+    },
+    {
+      "alarm_event_id": 99,
+      "predicted_k": 3092,
+      "window_center": 3067.5,
+      "drift_score": 0.005401506754893259
+    },
+    {
+      "alarm_event_id": 100,
+      "predicted_k": 3094,
+      "window_center": 3069.5,
+      "drift_score": 0.005442766933234644
+    },
+    {
+      "alarm_event_id": 101,
+      "predicted_k": 3095,
+      "window_center": 3070.5,
+      "drift_score": 0.004271317023028631
+    },
+    {
+      "alarm_event_id": 102,
+      "predicted_k": 3100,
+      "window_center": 3075.5,
+      "drift_score": 0.004644718810517978
+    },
+    {
+      "alarm_event_id": 103,
+      "predicted_k": 3244,
+      "window_center": 3219.5,
+      "drift_score": 0.004682334191207893
+    },
+    {
+      "alarm_event_id": 104,
+      "predicted_k": 3245,
+      "window_center": 3220.5,
+      "drift_score": 0.0047264075976521935
+    },
+    {
+      "alarm_event_id": 105,
+      "predicted_k": 3246,
+      "window_center": 3221.5,
+      "drift_score": 0.005301605700260836
+    },
+    {
+      "alarm_event_id": 106,
+      "predicted_k": 3247,
+      "window_center": 3222.5,
+      "drift_score": 0.004826459063706379
+    },
+    {
+      "alarm_event_id": 107,
+      "predicted_k": 3248,
+      "window_center": 3223.5,
+      "drift_score": 0.0045833584544024975
+    },
+    {
+      "alarm_event_id": 108,
+      "predicted_k": 3249,
+      "window_center": 3224.5,
+      "drift_score": 0.004856495689234519
+    },
+    {
+      "alarm_event_id": 109,
+      "predicted_k": 3253,
+      "window_center": 3228.5,
+      "drift_score": 0.004235713655708961
+    },
+    {
+      "alarm_event_id": 110,
+      "predicted_k": 3294,
+      "window_center": 3269.5,
+      "drift_score": 0.004164136465656054
+    },
+    {
+      "alarm_event_id": 111,
+      "predicted_k": 3295,
+      "window_center": 3270.5,
+      "drift_score": 0.004324567032594873
+    },
+    {
+      "alarm_event_id": 112,
+      "predicted_k": 3296,
+      "window_center": 3271.5,
+      "drift_score": 0.005661163294488403
+    },
+    {
+      "alarm_event_id": 113,
+      "predicted_k": 3297,
+      "window_center": 3272.5,
+      "drift_score": 0.005601143693645505
+    },
+    {
+      "alarm_event_id": 114,
+      "predicted_k": 3298,
+      "window_center": 3273.5,
+      "drift_score": 0.005052525274625075
+    },
+    {
+      "alarm_event_id": 115,
+      "predicted_k": 3299,
+      "window_center": 3274.5,
+      "drift_score": 0.0069118459390875575
+    },
+    {
+      "alarm_event_id": 116,
+      "predicted_k": 3300,
+      "window_center": 3275.5,
+      "drift_score": 0.0067759720098887755
+    },
+    {
+      "alarm_event_id": 117,
+      "predicted_k": 3301,
+      "window_center": 3276.5,
+      "drift_score": 0.007139360292740093
+    },
+    {
+      "alarm_event_id": 118,
+      "predicted_k": 3302,
+      "window_center": 3277.5,
+      "drift_score": 0.006060365728244088
+    },
+    {
+      "alarm_event_id": 119,
+      "predicted_k": 3303,
+      "window_center": 3278.5,
+      "drift_score": 0.006293494664829535
+    },
+    {
+      "alarm_event_id": 120,
+      "predicted_k": 3304,
+      "window_center": 3279.5,
+      "drift_score": 0.005391235155007834
+    },
+    {
+      "alarm_event_id": 121,
+      "predicted_k": 3305,
+      "window_center": 3280.5,
+      "drift_score": 0.0052570620022073244
+    },
+    {
+      "alarm_event_id": 122,
+      "predicted_k": 3306,
+      "window_center": 3281.5,
+      "drift_score": 0.0055255229392719984
+    },
+    {
+      "alarm_event_id": 123,
+      "predicted_k": 3307,
+      "window_center": 3282.5,
+      "drift_score": 0.006277376616821373
+    },
+    {
+      "alarm_event_id": 124,
+      "predicted_k": 3308,
+      "window_center": 3283.5,
+      "drift_score": 0.005756865503667052
+    },
+    {
+      "alarm_event_id": 125,
+      "predicted_k": 3309,
+      "window_center": 3284.5,
+      "drift_score": 0.005707540967351155
+    },
+    {
+      "alarm_event_id": 126,
+      "predicted_k": 3310,
+      "window_center": 3285.5,
+      "drift_score": 0.005845125314051902
+    },
+    {
+      "alarm_event_id": 127,
+      "predicted_k": 3408,
+      "window_center": 3383.5,
+      "drift_score": 0.004735560439967479
+    },
+    {
+      "alarm_event_id": 128,
+      "predicted_k": 3409,
+      "window_center": 3384.5,
+      "drift_score": 0.004794701411005686
+    },
+    {
+      "alarm_event_id": 129,
+      "predicted_k": 3410,
+      "window_center": 3385.5,
+      "drift_score": 0.005280115255822393
+    },
+    {
+      "alarm_event_id": 130,
+      "predicted_k": 3411,
+      "window_center": 3386.5,
+      "drift_score": 0.005878041554190916
+    },
+    {
+      "alarm_event_id": 131,
+      "predicted_k": 3412,
+      "window_center": 3387.5,
+      "drift_score": 0.006428821976289356
+    },
+    {
+      "alarm_event_id": 132,
+      "predicted_k": 3413,
+      "window_center": 3388.5,
+      "drift_score": 0.005352420635134081
+    },
+    {
+      "alarm_event_id": 133,
+      "predicted_k": 3414,
+      "window_center": 3389.5,
+      "drift_score": 0.004556492106979171
+    },
+    {
+      "alarm_event_id": 134,
+      "predicted_k": 3773,
+      "window_center": 3748.5,
+      "drift_score": 0.004382427781162823
+    },
+    {
+      "alarm_event_id": 135,
+      "predicted_k": 3775,
+      "window_center": 3750.5,
+      "drift_score": 0.0048388105145803495
+    },
+    {
+      "alarm_event_id": 136,
+      "predicted_k": 3776,
+      "window_center": 3751.5,
+      "drift_score": 0.005874876804640494
+    },
+    {
+      "alarm_event_id": 137,
+      "predicted_k": 3777,
+      "window_center": 3752.5,
+      "drift_score": 0.004789748408313033
+    },
+    {
+      "alarm_event_id": 138,
+      "predicted_k": 3778,
+      "window_center": 3753.5,
+      "drift_score": 0.005385135426410725
+    },
+    {
+      "alarm_event_id": 139,
+      "predicted_k": 3779,
+      "window_center": 3754.5,
+      "drift_score": 0.006852325452538666
+    },
+    {
+      "alarm_event_id": 140,
+      "predicted_k": 3780,
+      "window_center": 3755.5,
+      "drift_score": 0.0059976499197393895
+    },
+    {
+      "alarm_event_id": 141,
+      "predicted_k": 3781,
+      "window_center": 3756.5,
+      "drift_score": 0.0047833353892190456
+    },
+    {
+      "alarm_event_id": 142,
+      "predicted_k": 3782,
+      "window_center": 3757.5,
+      "drift_score": 0.005227472887024187
+    },
+    {
+      "alarm_event_id": 143,
+      "predicted_k": 3783,
+      "window_center": 3758.5,
+      "drift_score": 0.005280562602631433
+    },
+    {
+      "alarm_event_id": 144,
+      "predicted_k": 3784,
+      "window_center": 3759.5,
+      "drift_score": 0.006715146449983167
+    },
+    {
+      "alarm_event_id": 145,
+      "predicted_k": 3785,
+      "window_center": 3760.5,
+      "drift_score": 0.006060665233643903
+    },
+    {
+      "alarm_event_id": 146,
+      "predicted_k": 3786,
+      "window_center": 3761.5,
+      "drift_score": 0.005593757365164875
+    },
+    {
+      "alarm_event_id": 147,
+      "predicted_k": 3787,
+      "window_center": 3762.5,
+      "drift_score": 0.005193523004761169
+    },
+    {
+      "alarm_event_id": 148,
+      "predicted_k": 3996,
+      "window_center": 3971.5,
+      "drift_score": 0.005185119266619909
+    },
+    {
+      "alarm_event_id": 149,
+      "predicted_k": 3997,
+      "window_center": 3972.5,
+      "drift_score": 0.004931704671138348
+    },
+    {
+      "alarm_event_id": 150,
+      "predicted_k": 3998,
+      "window_center": 3973.5,
+      "drift_score": 0.004413706408813667
+    },
+    {
+      "alarm_event_id": 151,
+      "predicted_k": 4076,
+      "window_center": 4051.5,
+      "drift_score": 0.004893374863690347
+    },
+    {
+      "alarm_event_id": 152,
+      "predicted_k": 4077,
+      "window_center": 4052.5,
+      "drift_score": 0.004231702658408332
+    },
+    {
+      "alarm_event_id": 153,
+      "predicted_k": 4078,
+      "window_center": 4053.5,
+      "drift_score": 0.004812125618122054
+    },
+    {
+      "alarm_event_id": 154,
+      "predicted_k": 4079,
+      "window_center": 4054.5,
+      "drift_score": 0.004912636381519064
+    },
+    {
+      "alarm_event_id": 155,
+      "predicted_k": 4320,
+      "window_center": 4295.5,
+      "drift_score": 0.004116765225902208
+    },
+    {
+      "alarm_event_id": 156,
+      "predicted_k": 4321,
+      "window_center": 4296.5,
+      "drift_score": 0.004209637023410151
+    },
+    {
+      "alarm_event_id": 157,
+      "predicted_k": 4508,
+      "window_center": 4483.5,
+      "drift_score": 0.004486465698925968
+    },
+    {
+      "alarm_event_id": 158,
+      "predicted_k": 4509,
+      "window_center": 4484.5,
+      "drift_score": 0.004654069270764394
+    },
+    {
+      "alarm_event_id": 159,
+      "predicted_k": 4513,
+      "window_center": 4488.5,
+      "drift_score": 0.004316693293694662
+    },
+    {
+      "alarm_event_id": 160,
+      "predicted_k": 4514,
+      "window_center": 4489.5,
+      "drift_score": 0.004213461290796472
+    },
+    {
+      "alarm_event_id": 161,
+      "predicted_k": 4531,
+      "window_center": 4506.5,
+      "drift_score": 0.00407531445783782
+    },
+    {
+      "alarm_event_id": 162,
+      "predicted_k": 4649,
+      "window_center": 4624.5,
+      "drift_score": 0.005120959007730241
+    },
+    {
+      "alarm_event_id": 163,
+      "predicted_k": 4650,
+      "window_center": 4625.5,
+      "drift_score": 0.004295154690979963
+    },
+    {
+      "alarm_event_id": 164,
+      "predicted_k": 4761,
+      "window_center": 4736.5,
+      "drift_score": 0.004051363361685323
+    },
+    {
+      "alarm_event_id": 165,
+      "predicted_k": 4763,
+      "window_center": 4738.5,
+      "drift_score": 0.004653054807319479
+    },
+    {
+      "alarm_event_id": 166,
+      "predicted_k": 4768,
+      "window_center": 4743.5,
+      "drift_score": 0.00562309015329876
+    },
+    {
+      "alarm_event_id": 167,
+      "predicted_k": 4769,
+      "window_center": 4744.5,
+      "drift_score": 0.005806604136359694
+    },
+    {
+      "alarm_event_id": 168,
+      "predicted_k": 4770,
+      "window_center": 4745.5,
+      "drift_score": 0.007071150613038535
+    },
+    {
+      "alarm_event_id": 169,
+      "predicted_k": 4771,
+      "window_center": 4746.5,
+      "drift_score": 0.005842211822073451
+    },
+    {
+      "alarm_event_id": 170,
+      "predicted_k": 4772,
+      "window_center": 4747.5,
+      "drift_score": 0.0055857729969678305
+    },
+    {
+      "alarm_event_id": 171,
+      "predicted_k": 4773,
+      "window_center": 4748.5,
+      "drift_score": 0.005359879114523736
+    },
+    {
+      "alarm_event_id": 172,
+      "predicted_k": 4774,
+      "window_center": 4749.5,
+      "drift_score": 0.004459544920576319
+    }
+  ],
+  "mtfa_false_alarms": [
+    {
+      "alarm_event_id": 28,
+      "predicted_k": 268,
+      "window_center": 243.5,
+      "drift_score": 0.00961305693344694,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 29,
+      "predicted_k": 269,
+      "window_center": 244.5,
+      "drift_score": 0.007652352546285268,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 30,
+      "predicted_k": 270,
+      "window_center": 245.5,
+      "drift_score": 0.007904538451601661,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 31,
+      "predicted_k": 271,
+      "window_center": 246.5,
+      "drift_score": 0.009120841643699973,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 32,
+      "predicted_k": 272,
+      "window_center": 247.5,
+      "drift_score": 0.010192039532087027,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 33,
+      "predicted_k": 273,
+      "window_center": 248.5,
+      "drift_score": 0.01129798508247215,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 34,
+      "predicted_k": 274,
+      "window_center": 249.5,
+      "drift_score": 0.012347071603304838,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 35,
+      "predicted_k": 275,
+      "window_center": 250.5,
+      "drift_score": 0.013995014130101402,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 36,
+      "predicted_k": 276,
+      "window_center": 251.5,
+      "drift_score": 0.015338381197721462,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 37,
+      "predicted_k": 277,
+      "window_center": 252.5,
+      "drift_score": 0.017256761182151692,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 38,
+      "predicted_k": 278,
+      "window_center": 253.5,
+      "drift_score": 0.018160530940520836,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 39,
+      "predicted_k": 279,
+      "window_center": 254.5,
+      "drift_score": 0.021661128826395593,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 40,
+      "predicted_k": 280,
+      "window_center": 255.5,
+      "drift_score": 0.023715573816108892,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 41,
+      "predicted_k": 281,
+      "window_center": 256.5,
+      "drift_score": 0.024679807053517466,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 42,
+      "predicted_k": 282,
+      "window_center": 257.5,
+      "drift_score": 0.026990785214439872,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 43,
+      "predicted_k": 283,
+      "window_center": 258.5,
+      "drift_score": 0.028943934952355588,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 44,
+      "predicted_k": 284,
+      "window_center": 259.5,
+      "drift_score": 0.032642636738945074,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 45,
+      "predicted_k": 285,
+      "window_center": 260.5,
+      "drift_score": 0.03496264277435779,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 46,
+      "predicted_k": 286,
+      "window_center": 261.5,
+      "drift_score": 0.0388366020399995,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 47,
+      "predicted_k": 287,
+      "window_center": 262.5,
+      "drift_score": 0.040117608573143504,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 48,
+      "predicted_k": 288,
+      "window_center": 263.5,
+      "drift_score": 0.04455766932212879,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 49,
+      "predicted_k": 289,
+      "window_center": 264.5,
+      "drift_score": 0.048811174926461254,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 50,
+      "predicted_k": 290,
+      "window_center": 265.5,
+      "drift_score": 0.05147459749902139,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 51,
+      "predicted_k": 291,
+      "window_center": 266.5,
+      "drift_score": 0.05505201992964992,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 52,
+      "predicted_k": 292,
+      "window_center": 267.5,
+      "drift_score": 0.05711083553840235,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 53,
+      "predicted_k": 293,
+      "window_center": 268.5,
+      "drift_score": 0.05948564934932499,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 54,
+      "predicted_k": 294,
+      "window_center": 269.5,
+      "drift_score": 0.0631340943819485,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 55,
+      "predicted_k": 295,
+      "window_center": 270.5,
+      "drift_score": 0.0675283071463798,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 56,
+      "predicted_k": 296,
+      "window_center": 271.5,
+      "drift_score": 0.0714542217367714,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 57,
+      "predicted_k": 297,
+      "window_center": 272.5,
+      "drift_score": 0.06934923314437003,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 58,
+      "predicted_k": 298,
+      "window_center": 273.5,
+      "drift_score": 0.06994014777911428,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 59,
+      "predicted_k": 299,
+      "window_center": 274.5,
+      "drift_score": 0.07117997385635477,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 60,
+      "predicted_k": 300,
+      "window_center": 275.5,
+      "drift_score": 0.06828086602546002,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 61,
+      "predicted_k": 301,
+      "window_center": 276.5,
+      "drift_score": 0.06549797413371916,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 62,
+      "predicted_k": 302,
+      "window_center": 277.5,
+      "drift_score": 0.06390964863738724,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 63,
+      "predicted_k": 303,
+      "window_center": 278.5,
+      "drift_score": 0.06206382799914012,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 64,
+      "predicted_k": 2141,
+      "window_center": 2116.5,
+      "drift_score": 0.005544935423342445,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 65,
+      "predicted_k": 2142,
+      "window_center": 2117.5,
+      "drift_score": 0.005853406819651186,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 66,
+      "predicted_k": 2143,
+      "window_center": 2118.5,
+      "drift_score": 0.005560933213177077,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 67,
+      "predicted_k": 2144,
+      "window_center": 2119.5,
+      "drift_score": 0.005243243124805841,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 68,
+      "predicted_k": 2145,
+      "window_center": 2120.5,
+      "drift_score": 0.005543762132928953,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 69,
+      "predicted_k": 2146,
+      "window_center": 2121.5,
+      "drift_score": 0.0047520036041577285,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 70,
+      "predicted_k": 2147,
+      "window_center": 2122.5,
+      "drift_score": 0.005078072012235868,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 71,
+      "predicted_k": 2148,
+      "window_center": 2123.5,
+      "drift_score": 0.0054641053757672475,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 72,
+      "predicted_k": 2149,
+      "window_center": 2124.5,
+      "drift_score": 0.0060794035321326545,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 73,
+      "predicted_k": 2150,
+      "window_center": 2125.5,
+      "drift_score": 0.00498609698500474,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 74,
+      "predicted_k": 2258,
+      "window_center": 2233.5,
+      "drift_score": 0.005607934852161933,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 75,
+      "predicted_k": 2259,
+      "window_center": 2234.5,
+      "drift_score": 0.005289140668621517,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 76,
+      "predicted_k": 2260,
+      "window_center": 2235.5,
+      "drift_score": 0.005799170925999131,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 77,
+      "predicted_k": 2261,
+      "window_center": 2236.5,
+      "drift_score": 0.0058743800313398875,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 78,
+      "predicted_k": 2262,
+      "window_center": 2237.5,
+      "drift_score": 0.005124471437302991,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 79,
+      "predicted_k": 2308,
+      "window_center": 2283.5,
+      "drift_score": 0.004728261281913282,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 80,
+      "predicted_k": 2311,
+      "window_center": 2286.5,
+      "drift_score": 0.00530884442668178,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 81,
+      "predicted_k": 2312,
+      "window_center": 2287.5,
+      "drift_score": 0.005156814010275346,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 82,
+      "predicted_k": 2313,
+      "window_center": 2288.5,
+      "drift_score": 0.005370024584111843,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 83,
+      "predicted_k": 2314,
+      "window_center": 2289.5,
+      "drift_score": 0.006615142274313368,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 84,
+      "predicted_k": 2316,
+      "window_center": 2291.5,
+      "drift_score": 0.005993636586058004,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 85,
+      "predicted_k": 2317,
+      "window_center": 2292.5,
+      "drift_score": 0.0062719330717617705,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 86,
+      "predicted_k": 2318,
+      "window_center": 2293.5,
+      "drift_score": 0.005747794149793872,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 87,
+      "predicted_k": 2492,
+      "window_center": 2467.5,
+      "drift_score": 0.005833632058480753,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 88,
+      "predicted_k": 2928,
+      "window_center": 2903.5,
+      "drift_score": 0.00426399703750302,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 89,
+      "predicted_k": 3082,
+      "window_center": 3057.5,
+      "drift_score": 0.0040047578757652635,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 90,
+      "predicted_k": 3083,
+      "window_center": 3058.5,
+      "drift_score": 0.004283696996458808,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 91,
+      "predicted_k": 3084,
+      "window_center": 3059.5,
+      "drift_score": 0.0047541968968100035,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 92,
+      "predicted_k": 3085,
+      "window_center": 3060.5,
+      "drift_score": 0.006117044955554651,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 93,
+      "predicted_k": 3086,
+      "window_center": 3061.5,
+      "drift_score": 0.005235556009526632,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 94,
+      "predicted_k": 3087,
+      "window_center": 3062.5,
+      "drift_score": 0.005187975445306137,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 95,
+      "predicted_k": 3088,
+      "window_center": 3063.5,
+      "drift_score": 0.006101924902321421,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 96,
+      "predicted_k": 3089,
+      "window_center": 3064.5,
+      "drift_score": 0.0057628686070627655,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 97,
+      "predicted_k": 3090,
+      "window_center": 3065.5,
+      "drift_score": 0.005966049511128335,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 98,
+      "predicted_k": 3091,
+      "window_center": 3066.5,
+      "drift_score": 0.005201680574976497,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 99,
+      "predicted_k": 3092,
+      "window_center": 3067.5,
+      "drift_score": 0.005401506754893259,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 100,
+      "predicted_k": 3094,
+      "window_center": 3069.5,
+      "drift_score": 0.005442766933234644,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 101,
+      "predicted_k": 3095,
+      "window_center": 3070.5,
+      "drift_score": 0.004271317023028631,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 102,
+      "predicted_k": 3100,
+      "window_center": 3075.5,
+      "drift_score": 0.004644718810517978,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 103,
+      "predicted_k": 3244,
+      "window_center": 3219.5,
+      "drift_score": 0.004682334191207893,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 104,
+      "predicted_k": 3245,
+      "window_center": 3220.5,
+      "drift_score": 0.0047264075976521935,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 105,
+      "predicted_k": 3246,
+      "window_center": 3221.5,
+      "drift_score": 0.005301605700260836,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 106,
+      "predicted_k": 3247,
+      "window_center": 3222.5,
+      "drift_score": 0.004826459063706379,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 107,
+      "predicted_k": 3248,
+      "window_center": 3223.5,
+      "drift_score": 0.0045833584544024975,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 108,
+      "predicted_k": 3249,
+      "window_center": 3224.5,
+      "drift_score": 0.004856495689234519,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 109,
+      "predicted_k": 3253,
+      "window_center": 3228.5,
+      "drift_score": 0.004235713655708961,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 110,
+      "predicted_k": 3294,
+      "window_center": 3269.5,
+      "drift_score": 0.004164136465656054,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 111,
+      "predicted_k": 3295,
+      "window_center": 3270.5,
+      "drift_score": 0.004324567032594873,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 112,
+      "predicted_k": 3296,
+      "window_center": 3271.5,
+      "drift_score": 0.005661163294488403,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 113,
+      "predicted_k": 3297,
+      "window_center": 3272.5,
+      "drift_score": 0.005601143693645505,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 114,
+      "predicted_k": 3298,
+      "window_center": 3273.5,
+      "drift_score": 0.005052525274625075,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 115,
+      "predicted_k": 3299,
+      "window_center": 3274.5,
+      "drift_score": 0.0069118459390875575,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 116,
+      "predicted_k": 3300,
+      "window_center": 3275.5,
+      "drift_score": 0.0067759720098887755,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 117,
+      "predicted_k": 3301,
+      "window_center": 3276.5,
+      "drift_score": 0.007139360292740093,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 118,
+      "predicted_k": 3302,
+      "window_center": 3277.5,
+      "drift_score": 0.006060365728244088,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 119,
+      "predicted_k": 3303,
+      "window_center": 3278.5,
+      "drift_score": 0.006293494664829535,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 120,
+      "predicted_k": 3304,
+      "window_center": 3279.5,
+      "drift_score": 0.005391235155007834,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 121,
+      "predicted_k": 3305,
+      "window_center": 3280.5,
+      "drift_score": 0.0052570620022073244,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 122,
+      "predicted_k": 3306,
+      "window_center": 3281.5,
+      "drift_score": 0.0055255229392719984,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 123,
+      "predicted_k": 3307,
+      "window_center": 3282.5,
+      "drift_score": 0.006277376616821373,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 124,
+      "predicted_k": 3308,
+      "window_center": 3283.5,
+      "drift_score": 0.005756865503667052,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 125,
+      "predicted_k": 3309,
+      "window_center": 3284.5,
+      "drift_score": 0.005707540967351155,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 126,
+      "predicted_k": 3310,
+      "window_center": 3285.5,
+      "drift_score": 0.005845125314051902,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 127,
+      "predicted_k": 3408,
+      "window_center": 3383.5,
+      "drift_score": 0.004735560439967479,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 128,
+      "predicted_k": 3409,
+      "window_center": 3384.5,
+      "drift_score": 0.004794701411005686,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 129,
+      "predicted_k": 3410,
+      "window_center": 3385.5,
+      "drift_score": 0.005280115255822393,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 130,
+      "predicted_k": 3411,
+      "window_center": 3386.5,
+      "drift_score": 0.005878041554190916,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 131,
+      "predicted_k": 3412,
+      "window_center": 3387.5,
+      "drift_score": 0.006428821976289356,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 132,
+      "predicted_k": 3413,
+      "window_center": 3388.5,
+      "drift_score": 0.005352420635134081,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 133,
+      "predicted_k": 3414,
+      "window_center": 3389.5,
+      "drift_score": 0.004556492106979171,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 134,
+      "predicted_k": 3773,
+      "window_center": 3748.5,
+      "drift_score": 0.004382427781162823,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 135,
+      "predicted_k": 3775,
+      "window_center": 3750.5,
+      "drift_score": 0.0048388105145803495,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 136,
+      "predicted_k": 3776,
+      "window_center": 3751.5,
+      "drift_score": 0.005874876804640494,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 137,
+      "predicted_k": 3777,
+      "window_center": 3752.5,
+      "drift_score": 0.004789748408313033,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 138,
+      "predicted_k": 3778,
+      "window_center": 3753.5,
+      "drift_score": 0.005385135426410725,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 139,
+      "predicted_k": 3779,
+      "window_center": 3754.5,
+      "drift_score": 0.006852325452538666,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 140,
+      "predicted_k": 3780,
+      "window_center": 3755.5,
+      "drift_score": 0.0059976499197393895,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 141,
+      "predicted_k": 3781,
+      "window_center": 3756.5,
+      "drift_score": 0.0047833353892190456,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 142,
+      "predicted_k": 3782,
+      "window_center": 3757.5,
+      "drift_score": 0.005227472887024187,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 143,
+      "predicted_k": 3783,
+      "window_center": 3758.5,
+      "drift_score": 0.005280562602631433,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 144,
+      "predicted_k": 3784,
+      "window_center": 3759.5,
+      "drift_score": 0.006715146449983167,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 145,
+      "predicted_k": 3785,
+      "window_center": 3760.5,
+      "drift_score": 0.006060665233643903,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 146,
+      "predicted_k": 3786,
+      "window_center": 3761.5,
+      "drift_score": 0.005593757365164875,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 147,
+      "predicted_k": 3787,
+      "window_center": 3762.5,
+      "drift_score": 0.005193523004761169,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 148,
+      "predicted_k": 3996,
+      "window_center": 3971.5,
+      "drift_score": 0.005185119266619909,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 149,
+      "predicted_k": 3997,
+      "window_center": 3972.5,
+      "drift_score": 0.004931704671138348,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 150,
+      "predicted_k": 3998,
+      "window_center": 3973.5,
+      "drift_score": 0.004413706408813667,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 151,
+      "predicted_k": 4076,
+      "window_center": 4051.5,
+      "drift_score": 0.004893374863690347,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 152,
+      "predicted_k": 4077,
+      "window_center": 4052.5,
+      "drift_score": 0.004231702658408332,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 153,
+      "predicted_k": 4078,
+      "window_center": 4053.5,
+      "drift_score": 0.004812125618122054,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 154,
+      "predicted_k": 4079,
+      "window_center": 4054.5,
+      "drift_score": 0.004912636381519064,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 155,
+      "predicted_k": 4320,
+      "window_center": 4295.5,
+      "drift_score": 0.004116765225902208,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 156,
+      "predicted_k": 4321,
+      "window_center": 4296.5,
+      "drift_score": 0.004209637023410151,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 157,
+      "predicted_k": 4508,
+      "window_center": 4483.5,
+      "drift_score": 0.004486465698925968,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 158,
+      "predicted_k": 4509,
+      "window_center": 4484.5,
+      "drift_score": 0.004654069270764394,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 159,
+      "predicted_k": 4513,
+      "window_center": 4488.5,
+      "drift_score": 0.004316693293694662,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 160,
+      "predicted_k": 4514,
+      "window_center": 4489.5,
+      "drift_score": 0.004213461290796472,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 161,
+      "predicted_k": 4531,
+      "window_center": 4506.5,
+      "drift_score": 0.00407531445783782,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 162,
+      "predicted_k": 4649,
+      "window_center": 4624.5,
+      "drift_score": 0.005120959007730241,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 163,
+      "predicted_k": 4650,
+      "window_center": 4625.5,
+      "drift_score": 0.004295154690979963,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 164,
+      "predicted_k": 4761,
+      "window_center": 4736.5,
+      "drift_score": 0.004051363361685323,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 165,
+      "predicted_k": 4763,
+      "window_center": 4738.5,
+      "drift_score": 0.004653054807319479,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 166,
+      "predicted_k": 4768,
+      "window_center": 4743.5,
+      "drift_score": 0.00562309015329876,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 167,
+      "predicted_k": 4769,
+      "window_center": 4744.5,
+      "drift_score": 0.005806604136359694,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 168,
+      "predicted_k": 4770,
+      "window_center": 4745.5,
+      "drift_score": 0.007071150613038535,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 169,
+      "predicted_k": 4771,
+      "window_center": 4746.5,
+      "drift_score": 0.005842211822073451,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 170,
+      "predicted_k": 4772,
+      "window_center": 4747.5,
+      "drift_score": 0.0055857729969678305,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 171,
+      "predicted_k": 4773,
+      "window_center": 4748.5,
+      "drift_score": 0.005359879114523736,
+      "event_id": 1,
+      "real_k": 250
+    },
+    {
+      "alarm_event_id": 172,
+      "predicted_k": 4774,
+      "window_center": 4749.5,
+      "drift_score": 0.004459544920576319,
+      "event_id": 1,
+      "real_k": 250
+    }
+  ],
+  "raw_alarm_count": 172,
+  "selected_alarm_count": 172,
+  "metrics": {
+    "detection_delay": [
+      17
+    ],
+    "mean_detection_delay": 17.0,
+    "median_detection_delay": 17.0,
+    "recall": 1.0,
+    "precision": 0.19767441860465115,
+    "f1": 0.3300970873786408,
+    "missed_detection_rate": 0.0,
+    "mean_time_to_detection": 17.0,
+    "mean_time_between_false_alarms": 31.291666666666668,
+    "mean_time_ratio": 1.840686274509804
+  },
+  "timing": {
+    "samples": 5000,
+    "mean_embedding_time_ms": 41.14927766700394,
+    "mean_detector_time_ms": 2.1177406830041945,
+    "mean_total_time_ms": 43.26797334819384,
+    "median_total_time_ms": 42.945666499917934,
+    "p95_total_time_ms": 54.85648560020309,
+    "total_wall_time_ms": 216339.8667409692,
+    "throughput_samples_per_s": 23.11178274870005
+  }
+}
