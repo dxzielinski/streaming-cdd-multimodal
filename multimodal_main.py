@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
+import tempfile
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -12,9 +14,12 @@ import numpy as np
 import pandas as pd
 from PIL import Image, UnidentifiedImageError
 
+os.environ.setdefault(
+    "MPLCONFIGDIR", str(Path(tempfile.gettempdir()) / "streaming_ml_matplotlib")
+)
 import matplotlib.pyplot as plt
 
-from streaming_classifier import DualPerformanceMonitor
+from streaming_classifier import DualPerformanceMonitor, SUPPORTED_CLASSIFIERS
 from streaming_detectors import (
     DriftDetectorFactory,
     StreamingDriftDetector,
@@ -26,7 +31,7 @@ DRIFT_TARGETS: tuple[str, ...] = DriftDetectorFactory.DRIFT_TARGETS
 DEFAULT_DRIFT_TARGET: str = "data"
 
 
-# Random text generation
+# Random text generation - for some noise in the text modality
 GENERIC_VOCAB = [
     "small",
     "large",
@@ -158,6 +163,7 @@ def generate_random_text(
 
 
 # Image discovery and validation
+
 ALLOWED_EXTS = {".jpg", ".jpeg", ".png"}
 
 
@@ -186,6 +192,8 @@ def collect_valid_images(folder: Path, limit: Optional[int] = None) -> List[Path
 
 
 # Stream construction
+
+
 @dataclass
 class StreamItem:
     t: int
@@ -662,9 +670,17 @@ def save_metrics_report(metrics_report: dict, out_path: Path) -> None:
 
 
 # Stream synthesis (N-class, dataset-agnostic)
+_IMAGE_POOL_CACHE: dict[tuple[str, tuple[str, ...]], dict[str, List[Path]]] = {}
+
+
 def _load_class_image_pools(
     root_dir: Path, class_names: List[str]
 ) -> dict[str, List[Path]]:
+    cache_key = (str(root_dir.resolve()), tuple(class_names))
+    cached = _IMAGE_POOL_CACHE.get(cache_key)
+    if cached is not None:
+        return {name: list(paths) for name, paths in cached.items()}
+
     pools: dict[str, List[Path]] = {}
     missing: list[Path] = []
     for class_name in class_names:
@@ -676,6 +692,7 @@ def _load_class_image_pools(
     if missing:
         joined = ", ".join(f"'{p}'" for p in missing)
         raise FileNotFoundError(f"Expected class folders {joined} under '{root_dir}'.")
+    _IMAGE_POOL_CACHE[cache_key] = {name: list(paths) for name, paths in pools.items()}
     return pools
 
 
@@ -1534,9 +1551,6 @@ def run_streaming_ccd(
     signal because that model is the only one whose error trajectory is
     unaffected by the detector's own decisions.
 
-    Drift / warning flags emitted by the detector at step t are based on the
-    true label at t, so they are only allowed to affect case 2 from t+1.
-
     Returns (per-sample results, timing summary).
     """
     rows: list[dict[str, Any]] = []
@@ -1835,6 +1849,16 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--text_features", type=int, default=256)
     parser.add_argument("--image_weight", type=float, default=1.0)
     parser.add_argument("--text_weight", type=float, default=0.35)
+    parser.add_argument(
+        "--classifier",
+        type=str,
+        default="logistic_regression",
+        choices=list(SUPPORTED_CLASSIFIERS),
+        help=(
+            "Online classifier used only when --drift_target=performance. "
+            "The two replacement strategies share this model family."
+        ),
+    )
     parser.add_argument(
         "--detection_horizon",
         type=int,
@@ -2137,11 +2161,13 @@ def run_multimodal_stream(
 
     monitor: Optional[DualPerformanceMonitor] = None
     if drift_target == "performance":
-        monitor = DualPerformanceMonitor()
+        classifier = getattr(args, "classifier", "logistic_regression")
+        monitor = DualPerformanceMonitor(classifier=classifier)
         if verbose:
+            summary = monitor.summary()
             print(
-                "[INFO] Performance monitor: river OneVsRest(LogisticRegression) "
-                "+ StandardScaler -- learns prequentially from the stream "
+                f"[INFO] Performance monitor: {summary['model_class']} -- "
+                "learns prequentially from the stream "
                 "(case 1 = never reset, case 2 = replaced on drift with a "
                 "shadow started after the warning flag)."
             )

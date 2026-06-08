@@ -1,0 +1,15 @@
+source_index,source_name,source_root,local_class_name,local_class_id,global_label,global_label_id,valid_images
+0,Faces,/home/dxzielinski/Downloads/archive/Faces,Fake faces,0,Faces__Fake faces,0,10000
+0,Faces,/home/dxzielinski/Downloads/archive/Faces,Real faces,1,Faces__Real faces,1,10000
+1,PetImages,/home/dxzielinski/Downloads/archive/PetImages,Cat,0,PetImages__Cat,2,12499
+1,PetImages,/home/dxzielinski/Downloads/archive/PetImages,Dog,1,PetImages__Dog,3,12499
+2,GarbageDataset,/home/dxzielinski/Downloads/archive/GarbageDataset,battery,0,GarbageDataset__battery,4,756
+2,GarbageDataset,/home/dxzielinski/Downloads/archive/GarbageDataset,biological,1,GarbageDataset__biological,5,699
+2,GarbageDataset,/home/dxzielinski/Downloads/archive/GarbageDataset,cardboard,2,GarbageDataset__cardboard,6,1411
+2,GarbageDataset,/home/dxzielinski/Downloads/archive/GarbageDataset,clothes,3,GarbageDataset__clothes,7,1892
+2,GarbageDataset,/home/dxzielinski/Downloads/archive/GarbageDataset,glass,4,GarbageDataset__glass,8,1736
+2,GarbageDataset,/home/dxzielinski/Downloads/archive/GarbageDataset,metal,5,GarbageDataset__metal,9,930
+2,GarbageDataset,/home/dxzielinski/Downloads/archive/GarbageDataset,paper,6,GarbageDataset__paper,10,1336
+2,GarbageDataset,/home/dxzielinski/Downloads/archive/GarbageDataset,plastic,7,GarbageDataset__plastic,11,1597
+2,GarbageDataset,/home/dxzielinski/Downloads/archive/GarbageDataset,shoes,8,GarbageDataset__shoes,12,1449
+2,GarbageDataset,/home/dxzielinski/Downloads/archive/GarbageDataset,trash,9,GarbageDataset__trash,13,453

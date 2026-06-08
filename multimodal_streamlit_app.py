@@ -217,7 +217,7 @@ def build_cli_preview(args: argparse.Namespace) -> str:
         "device",
         "out_dir",
     ]
-    parts = ["uv", "run", "project/multimodal_cats_dogs_stream.py"]
+    parts = ["uv", "run", "project/multimodal_main.py"]
     for key in ordered_keys:
         value = getattr(args, key)
         if value is None:
@@ -332,12 +332,14 @@ def show_event_table(
         st.caption(empty_text)
 
 
-st.title("Multimodal Streaming CCD Workbench")
-st.caption(
-    "Pick a dataset (one folder per class), configure the multimodal stream, "
-    "choose a streaming concept-drift detector (adjacent-window comparison, no "
-    "reference set), and inspect detection quality alongside per-sample "
-    "processing time so different methods can be compared."
+st.title(
+    "Multimodal Streaming CCD Workbench",
+    help=(
+        "Pick a dataset (one folder per class), configure the multimodal stream, "
+        "choose a streaming concept-drift detector (adjacent-window comparison, no "
+        "reference set), and inspect detection quality alongside per-sample "
+        "processing time so different methods can be compared."
+    ),
 )
 
 
@@ -351,17 +353,24 @@ with st.sidebar:
         in drift_target_options
         else 0
     )
+    drift_target_help = (
+        "data: monitor drift of X (the embeddings). "
+        "performance: monitor the per-sample error of an online prequential "
+        "classifier.\n\n"
+        f"data — {DRIFT_TARGET_HELP['data']}\n\n"
+        f"performance — {DRIFT_TARGET_HELP['performance']}\n\n"
+        "Performance mode uses an online river classifier "
+        "(StandardScaler -> OneVsRest(LogisticRegression)) that learns "
+        "prequentially from the stream itself, so no holdout is needed. Two "
+        "strategies run in parallel: case 1 never resets, case 2 is replaced "
+        "on drift with a shadow that starts after the warning flag."
+    )
     selected_drift_target = st.selectbox(
         "Drift target",
         options=drift_target_options,
         index=drift_target_default_index,
-        help=(
-            "data: monitor drift of X (the embeddings). "
-            "performance: monitor the per-sample error of an online "
-            "prequential classifier."
-        ),
+        help=drift_target_help,
     )
-    st.caption(DRIFT_TARGET_HELP[selected_drift_target])
 
     detector_choices = DriftDetectorFactory.detectors_for_target(selected_drift_target)
     detector_default = (
@@ -369,27 +378,20 @@ with st.sidebar:
         if DEFAULTS.detector in detector_choices
         else detector_choices[0]
     )
+    detector_help = (
+        "Detector list is filtered by drift target. "
+        "data drift: mmd, frechet, kswin (window-vs-window comparisons of embeddings). "
+        "performance drift: kswin, adwin, page_hinkley, hddm_w (scalar error-rate monitors).\n\n"
+        + "\n\n".join(
+            f"{name} — {DETECTOR_DESCRIPTIONS[name]}" for name in detector_choices
+        )
+    )
     selected_detector = st.selectbox(
         "Drift detector",
         options=detector_choices,
         index=detector_choices.index(detector_default),
-        help=(
-            "Detector list is filtered by drift target. "
-            "data drift: mmd, frechet, kswin (window-vs-window comparisons of embeddings). "
-            "performance drift: kswin, adwin, page_hinkley, hddm_w (scalar error-rate monitors)."
-        ),
+        help=detector_help,
     )
-    st.caption(DETECTOR_DESCRIPTIONS[selected_detector])
-
-    if selected_drift_target == "performance":
-        st.caption(
-            "Performance mode now uses an online river classifier "
-            "(StandardScaler -> OneVsRest(LogisticRegression)) that learns "
-            "prequentially from the stream itself, so no holdout is "
-            "needed. Two strategies run in parallel: case 1 never resets, "
-            "case 2 is replaced on drift with a shadow that starts after "
-            "the warning flag."
-        )
 
     modality = st.selectbox(
         "Stream modality",
@@ -440,8 +442,8 @@ with st.sidebar:
         st.error(f"Cannot use dataset `{selected_dataset}`: {exc}")
         st.stop()
     class_summary = ", ".join(f"{name}={i}" for i, name in enumerate(class_names))
-    st.caption(
-        f"Detected **{len(class_names)}** classes in `{selected_dataset}`: {class_summary}"
+    dataset_class_summary = (
+        f"{len(class_names)} classes in '{selected_dataset}': {class_summary}"
     )
 
     drift_type_options = ["abrupt", "gradual", "gradual_recurrent", "recurrent"]
@@ -531,8 +533,6 @@ with st.sidebar:
         step=1,
         help=window_size_help,
     )
-    if selected_drift_target == "performance":
-        st.info(window_size_help)
 
     st.divider()
     st.subheader("Detector Hyperparameters")
@@ -561,10 +561,6 @@ with st.sidebar:
             # In performance mode the detector input is already the binary
             # error signal, so the river projection collapses to identity.
             projection = "mean"
-            st.caption(
-                "Projection forced to `mean` in performance mode (the detector "
-                "input is already a binary error scalar)."
-            )
             ewma_alpha = float(DEFAULTS.ewma_alpha)
         else:
             projection = st.selectbox(
@@ -724,8 +720,15 @@ with st.sidebar:
         device=device,
         out_dir=str(resolved_out_dir),
     )
-    st.caption(f"Resolved run directory: `{resolved_out_dir}`")
-    run_button = st.button("Run streaming CCD", width="stretch", type="primary")
+    run_button = st.button(
+        "Run streaming CCD",
+        width="stretch",
+        type="primary",
+        help=(
+            f"Dataset: {dataset_class_summary}\n\n"
+            f"Resolved run directory: {resolved_out_dir}"
+        ),
+    )
 
 
 st.subheader("CLI Preview")
@@ -750,196 +753,193 @@ if run_button:
 saved_runs = discover_saved_runs(Path(output_root))
 
 st.subheader("Saved Runs")
-selected_run: StoredRun | None = None
-if saved_runs:
-    selected_run_dir = st.session_state.get("selected_run_dir")
-    selected_drift_type = st.session_state.get("selected_drift_type")
-    selected_index = 0
-
-    if selected_run_dir and selected_drift_type:
-        for idx, run in enumerate(saved_runs):
-            if (
-                str(run.run_dir.resolve()) == selected_run_dir
-                and run.drift_type == selected_drift_type
-            ):
-                selected_index = idx
-                break
-
-    selected_run = st.selectbox(
-        "Choose a persisted run",
-        options=saved_runs,
-        index=selected_index,
-        format_func=lambda run: run.label,
-    )
-
-if selected_run is None:
-    if saved_runs:
-        st.info("Choose a persisted run to view its results.")
-    else:
-        st.info(f"No saved results found under `{Path(output_root).resolve()}`.")
+if not saved_runs:
+    st.info(f"No saved results found under `{Path(output_root).resolve()}`.")
     st.stop()
 
-if selected_run is not None:
-    metrics_payload = load_json_file(
-        str(selected_run.metrics_path),
-        int(selected_run.metrics_path.stat().st_mtime_ns),
-    )
-    results_df = load_csv_file(
-        str(selected_run.results_path),
-        int(selected_run.results_path.stat().st_mtime_ns),
-    )
-    manifest_df = load_csv_file(
-        str(selected_run.manifest_path),
-        int(selected_run.manifest_path.stat().st_mtime_ns),
-    )
-    config_payload = (
-        load_json_file(
-            str(selected_run.config_path),
-            int(selected_run.config_path.stat().st_mtime_ns),
-        )
-        if selected_run.config_path is not None
-        else None
-    )
+selected_run_dir = st.session_state.get("selected_run_dir")
+selected_drift_type = st.session_state.get("selected_drift_type")
+selected_index = 0
 
-    run_class_names = list(metrics_payload.get("class_names", []) or [])
-    class_caption = (
-        ", ".join(f"{name}={i}" for i, name in enumerate(run_class_names))
-        if run_class_names
-        else "n/a"
-    )
-    run_drift_target = metrics_payload.get("drift_target", "data")
-    run_classifier = metrics_payload.get("classifier") or {}
-    classifier_caption = ""
-    if run_drift_target == "performance" and run_classifier:
-        n_seen = run_classifier.get("n_seen")
-        case1 = run_classifier.get("case1_accuracy")
-        case2 = run_classifier.get("case2_accuracy")
-        n_repl = run_classifier.get("case2_replacements")
-        classifier_caption = (
-            f" | Online classifier: n_seen={n_seen}, case1_acc={format_scalar(case1)}, "
-            f"case2_acc={format_scalar(case2)}, case2_replacements={n_repl}"
-        )
-    st.caption(
-        f"Run directory: `{selected_run.run_dir}` | "
-        f"Metrics file: `{selected_run.metrics_path.name}` | "
-        f"Detector: `{metrics_payload.get('model_name', '?')}` | "
-        f"Modality: `{metrics_payload.get('modality', '?')}` | "
-        f"Drift target: `{run_drift_target}` | "
-        f"Classes: {class_caption}{classifier_caption}"
-    )
+if selected_run_dir and selected_drift_type:
+    for idx, run in enumerate(saved_runs):
+        if (
+            str(run.run_dir.resolve()) == selected_run_dir
+            and run.drift_type == selected_drift_type
+        ):
+            selected_index = idx
+            break
 
-    metrics = metrics_payload.get("metrics", {})
-    timing = metrics_payload.get("timing", {})
+selected_run = st.selectbox(
+    "Choose a persisted run",
+    options=saved_runs,
+    index=selected_index,
+    format_func=lambda run: run.label,
+)
 
-    overview_cols = st.columns(6)
-    overview_cols[0].metric("Drift type", metrics_payload.get("drift_type", "n/a"))
-    overview_cols[1].metric(
-        "Predicted k",
-        ", ".join(map(str, metrics_payload.get("predicted_k", []))) or "none",
+metrics_payload = load_json_file(
+    str(selected_run.metrics_path),
+    int(selected_run.metrics_path.stat().st_mtime_ns),
+)
+results_df = load_csv_file(
+    str(selected_run.results_path),
+    int(selected_run.results_path.stat().st_mtime_ns),
+)
+manifest_df = load_csv_file(
+    str(selected_run.manifest_path),
+    int(selected_run.manifest_path.stat().st_mtime_ns),
+)
+config_payload = (
+    load_json_file(
+        str(selected_run.config_path),
+        int(selected_run.config_path.stat().st_mtime_ns),
     )
-    overview_cols[2].metric("Recall", format_scalar(metrics.get("recall")))
-    overview_cols[3].metric("Precision", format_scalar(metrics.get("precision")))
-    overview_cols[4].metric("F1", format_scalar(metrics.get("f1")))
-    overview_cols[5].metric(
-        "Selected alarms", str(metrics_payload.get("selected_alarm_count", 0))
-    )
+    if selected_run.config_path is not None
+    else None
+)
 
-    delay_cols = st.columns(4)
-    delay_cols[0].metric(
-        "Mean detection delay", format_scalar(metrics.get("mean_detection_delay"), digits=2)
+run_class_names = list(metrics_payload.get("class_names", []) or [])
+class_caption = (
+    ", ".join(f"{name}={i}" for i, name in enumerate(run_class_names))
+    if run_class_names
+    else "n/a"
+)
+run_drift_target = metrics_payload.get("drift_target", "data")
+run_classifier = metrics_payload.get("classifier") or {}
+classifier_caption = ""
+if run_drift_target == "performance" and run_classifier:
+    n_seen = run_classifier.get("n_seen")
+    case1 = run_classifier.get("case1_accuracy")
+    case2 = run_classifier.get("case2_accuracy")
+    n_repl = run_classifier.get("case2_replacements")
+    classifier_caption = (
+        f" | Online classifier: n_seen={n_seen}, case1_acc={format_scalar(case1)}, "
+        f"case2_acc={format_scalar(case2)}, case2_replacements={n_repl}"
     )
-    delay_cols[1].metric(
-        "Median detection delay",
-        format_scalar(metrics.get("median_detection_delay"), digits=2),
-    )
-    delay_cols[2].metric(
-        "Missed detection rate", format_scalar(metrics.get("missed_detection_rate"))
-    )
-    delay_cols[3].metric(
-        "Mean time ratio", format_scalar(metrics.get("mean_time_ratio"), digits=2)
-    )
+run_metadata = (
+    f"Run directory: {selected_run.run_dir}\n\n"
+    f"Metrics file: {selected_run.metrics_path.name}\n\n"
+    f"Detector: {metrics_payload.get('model_name', '?')}\n\n"
+    f"Modality: {metrics_payload.get('modality', '?')}\n\n"
+    f"Drift target: {run_drift_target}\n\n"
+    f"Classes: {class_caption}{classifier_caption}"
+)
 
-    st.subheader("Per-Sample Timing")
-    timing_cols = st.columns(5)
-    timing_cols[0].metric(
-        "Mean total / sample (ms)",
-        format_scalar(timing.get("mean_total_time_ms", float("nan")), digits=3),
-    )
-    timing_cols[1].metric(
-        "Mean embedding / sample (ms)",
-        format_scalar(timing.get("mean_embedding_time_ms", float("nan")), digits=3),
-    )
-    timing_cols[2].metric(
-        "Mean detector / sample (ms)",
-        format_scalar(timing.get("mean_detector_time_ms", float("nan")), digits=3),
-    )
-    timing_cols[3].metric(
-        "p95 total (ms)",
-        format_scalar(timing.get("p95_total_time_ms", float("nan")), digits=3),
-    )
-    timing_cols[4].metric(
-        "Throughput (samples/s)",
-        format_scalar(timing.get("throughput_samples_per_s"), digits=1),
-    )
+metrics = metrics_payload.get("metrics", {})
+timing = metrics_payload.get("timing", {})
 
-    if run_drift_target == "performance" and "mean_case1_total_time_ms" in timing:
-        st.subheader("Per-Strategy Timing (online classifier)")
-        st.caption(
+st.subheader("Detection Metrics", help=run_metadata)
+overview_cols = st.columns(6)
+overview_cols[0].metric("Drift type", metrics_payload.get("drift_type", "n/a"))
+overview_cols[1].metric(
+    "Predicted k",
+    ", ".join(map(str, metrics_payload.get("predicted_k", []))) or "none",
+)
+overview_cols[2].metric("Recall", format_scalar(metrics.get("recall")))
+overview_cols[3].metric("Precision", format_scalar(metrics.get("precision")))
+overview_cols[4].metric("F1", format_scalar(metrics.get("f1")))
+overview_cols[5].metric(
+    "Selected alarms", str(metrics_payload.get("selected_alarm_count", 0))
+)
+
+delay_cols = st.columns(4)
+delay_cols[0].metric(
+    "Mean detection delay", format_scalar(metrics.get("mean_detection_delay"), digits=2)
+)
+delay_cols[1].metric(
+    "Median detection delay",
+    format_scalar(metrics.get("median_detection_delay"), digits=2),
+)
+delay_cols[2].metric(
+    "Missed detection rate", format_scalar(metrics.get("missed_detection_rate"))
+)
+delay_cols[3].metric(
+    "Mean time ratio", format_scalar(metrics.get("mean_time_ratio"), digits=2)
+)
+
+st.subheader("Per-Sample Timing")
+timing_cols = st.columns(5)
+timing_cols[0].metric(
+    "Mean total / sample (ms)",
+    format_scalar(timing.get("mean_total_time_ms", float("nan")), digits=3),
+)
+timing_cols[1].metric(
+    "Mean embedding / sample (ms)",
+    format_scalar(timing.get("mean_embedding_time_ms", float("nan")), digits=3),
+)
+timing_cols[2].metric(
+    "Mean detector / sample (ms)",
+    format_scalar(timing.get("mean_detector_time_ms", float("nan")), digits=3),
+)
+timing_cols[3].metric(
+    "p95 total (ms)",
+    format_scalar(timing.get("p95_total_time_ms", float("nan")), digits=3),
+)
+timing_cols[4].metric(
+    "Throughput (samples/s)",
+    format_scalar(timing.get("throughput_samples_per_s"), digits=1),
+)
+
+if run_drift_target == "performance" and "mean_case1_total_time_ms" in timing:
+    st.subheader(
+        "Per-Strategy Timing (online classifier)",
+        help=(
             "Each strategy's total = embedding + classifier(s) + detector. "
             "Case 2 includes the shadow's predict + train cost while it is alive, "
             "because keeping a hot shadow is part of the replace-on-drift strategy."
-        )
-        strat_cols = st.columns(6)
-        strat_cols[0].metric(
-            "Case 1 mean total (ms)",
-            format_scalar(timing.get("mean_case1_total_time_ms"), digits=3),
-        )
-        strat_cols[1].metric(
-            "Case 1 p95 total (ms)",
-            format_scalar(timing.get("p95_case1_total_time_ms"), digits=3),
-        )
-        strat_cols[2].metric(
-            "Case 1 throughput",
-            format_scalar(timing.get("case1_throughput_samples_per_s"), digits=1),
-        )
-        strat_cols[3].metric(
-            "Case 2 mean total (ms)",
-            format_scalar(timing.get("mean_case2_total_time_ms"), digits=3),
-        )
-        strat_cols[4].metric(
-            "Case 2 p95 total (ms)",
-            format_scalar(timing.get("p95_case2_total_time_ms"), digits=3),
-        )
-        strat_cols[5].metric(
-            "Case 2 throughput",
-            format_scalar(timing.get("case2_throughput_samples_per_s"), digits=1),
-        )
-        extra_cols = st.columns(4)
-        extra_cols[0].metric(
-            "Case 1 final accuracy",
-            format_scalar(timing.get("final_case1_accuracy"), digits=4),
-        )
-        extra_cols[1].metric(
-            "Case 2 final accuracy",
-            format_scalar(timing.get("final_case2_accuracy"), digits=4),
-        )
-        extra_cols[2].metric(
-            "Case 2 replacements",
-            str(int(timing.get("case2_replacements", 0))),
-        )
-        extra_cols[3].metric(
-            "Shadow active fraction",
-            format_scalar(timing.get("shadow_active_fraction"), digits=3),
-        )
+        ),
+    )
+    strat_cols = st.columns(6)
+    strat_cols[0].metric(
+        "Case 1 mean total (ms)",
+        format_scalar(timing.get("mean_case1_total_time_ms"), digits=3),
+    )
+    strat_cols[1].metric(
+        "Case 1 p95 total (ms)",
+        format_scalar(timing.get("p95_case1_total_time_ms"), digits=3),
+    )
+    strat_cols[2].metric(
+        "Case 1 throughput",
+        format_scalar(timing.get("case1_throughput_samples_per_s"), digits=1),
+    )
+    strat_cols[3].metric(
+        "Case 2 mean total (ms)",
+        format_scalar(timing.get("mean_case2_total_time_ms"), digits=3),
+    )
+    strat_cols[4].metric(
+        "Case 2 p95 total (ms)",
+        format_scalar(timing.get("p95_case2_total_time_ms"), digits=3),
+    )
+    strat_cols[5].metric(
+        "Case 2 throughput",
+        format_scalar(timing.get("case2_throughput_samples_per_s"), digits=1),
+    )
+    extra_cols = st.columns(4)
+    extra_cols[0].metric(
+        "Case 1 final accuracy",
+        format_scalar(timing.get("final_case1_accuracy"), digits=4),
+    )
+    extra_cols[1].metric(
+        "Case 2 final accuracy",
+        format_scalar(timing.get("final_case2_accuracy"), digits=4),
+    )
+    extra_cols[2].metric(
+        "Case 2 replacements",
+        str(int(timing.get("case2_replacements", 0))),
+    )
+    extra_cols[3].metric(
+        "Shadow active fraction",
+        format_scalar(timing.get("shadow_active_fraction"), digits=3),
+    )
 
-    if (
-        run_drift_target == "performance"
-        and selected_run.accuracy_plot_path is not None
-        and selected_run.accuracy_plot_path.exists()
-    ):
-        st.subheader("Online Classifier Accuracy Over Time")
-        st.image(str(selected_run.accuracy_plot_path), width="stretch")
-        st.caption(
+if (
+    run_drift_target == "performance"
+    and selected_run.accuracy_plot_path is not None
+    and selected_run.accuracy_plot_path.exists()
+):
+    st.subheader(
+        "Online Classifier Accuracy Over Time",
+        help=(
             "Solid lines: rolling-window accuracy from per-sample errors -- "
             "fast to react to drift. Dotted lines: lifetime running accuracy -- "
             "smooth and converging. The orange (case 2) curve dips when the "
@@ -947,27 +947,29 @@ if selected_run is not None:
             "shadow) accumulates training samples; the blue (case 1) curve "
             "shows what a never-reset online learner would have achieved on the "
             "same stream."
-        )
+        ),
+    )
+    st.image(str(selected_run.accuracy_plot_path), width="stretch")
 
-    plot_col_1, plot_col_2 = st.columns(2)
-    with plot_col_1:
-        st.subheader("Stream Scatter")
-        if selected_run.scatter_path.exists():
-            st.image(str(selected_run.scatter_path), width="stretch")
-        else:
-            st.caption("No stream scatter image found.")
+plot_col_1, plot_col_2 = st.columns(2)
+with plot_col_1:
+    st.subheader("Stream Scatter")
+    if selected_run.scatter_path.exists():
+        st.image(str(selected_run.scatter_path), width="stretch")
+    else:
+        st.caption("No stream scatter image found.")
 
-    with plot_col_2:
-        st.subheader("Drift Scores")
-        if selected_run.score_plot_path.exists():
-            st.image(str(selected_run.score_plot_path), width="stretch")
-        else:
-            st.caption("No drift score plot found.")
+with plot_col_2:
+    st.subheader("Drift Scores")
+    if selected_run.score_plot_path.exists():
+        st.image(str(selected_run.score_plot_path), width="stretch")
+    else:
+        st.caption("No drift score plot found.")
 
-    if selected_run.timing_plot_path is not None and selected_run.timing_plot_path.exists():
-        st.subheader("Per-Sample Processing Time")
-        st.image(str(selected_run.timing_plot_path), width="stretch")
-        st.caption(
+if selected_run.timing_plot_path is not None and selected_run.timing_plot_path.exists():
+    st.subheader(
+        "Per-Sample Processing Time",
+        help=(
             "The first sample is typically much slower than steady state because "
             "the embedder (ResNet18 weights, CUDA/cuDNN caches, the text "
             "vectorizer) initialises on its first call. Two-window detectors "
@@ -976,110 +978,115 @@ if selected_run is not None:
             "near zero during warm-up and steps up once comparisons begin. The "
             "rolling mean smears both effects across the first ~window_size "
             "samples, which is why the curve dips before settling."
-        )
+        ),
+    )
+    st.image(str(selected_run.timing_plot_path), width="stretch")
 
-    tab_overview, tab_manifest, tab_scores, tab_config = st.tabs(
-        ["Event Tables", "Stream Manifest", "Scores & Timing", "Run Config"]
+tab_overview, tab_manifest, tab_scores, tab_config = st.tabs(
+    ["Event Tables", "Stream Manifest", "Scores & Timing", "Run Config"]
+)
+
+with tab_overview:
+    show_event_table(
+        "Matched detections",
+        metrics_payload.get("matched_detections", []),
+        "No detections matched a true drift event.",
+    )
+    show_event_table(
+        "False alarms",
+        metrics_payload.get("false_alarms", []),
+        "No false alarms were recorded.",
+    )
+    show_event_table(
+        "Missed detections",
+        metrics_payload.get("missed_detections", []),
+        "No drift events were missed.",
     )
 
-    with tab_overview:
-        show_event_table(
-            "Matched detections",
-            metrics_payload.get("matched_detections", []),
-            "No detections matched a true drift event.",
+with tab_manifest:
+    st.metric("Rows", str(len(manifest_df)))
+    if "label" in manifest_df.columns and "label_id" in manifest_df.columns:
+        per_class = (
+            manifest_df.groupby(["label_id", "label"])
+            .size()
+            .reset_index(name="count")
+            .sort_values("label_id")
         )
-        show_event_table(
-            "False alarms",
-            metrics_payload.get("false_alarms", []),
-            "No false alarms were recorded.",
+        st.subheader("Per-class counts")
+        st.dataframe(per_class, width="stretch", hide_index=True)
+    elif "label" in manifest_df.columns:
+        st.subheader("Per-class counts")
+        st.dataframe(
+            manifest_df["label"]
+            .value_counts()
+            .rename_axis("label")
+            .reset_index(name="count"),
+            width="stretch",
+            hide_index=True,
         )
-        show_event_table(
-            "Missed detections",
-            metrics_payload.get("missed_detections", []),
-            "No drift events were missed.",
+
+    if "segment" in manifest_df:
+        st.subheader("Segment mix")
+        segment_counts = (
+            manifest_df["segment"]
+            .value_counts()
+            .rename_axis("segment")
+            .reset_index(name="count")
         )
+        st.dataframe(segment_counts, width="stretch", hide_index=True)
 
-    with tab_manifest:
-        st.metric("Rows", str(len(manifest_df)))
-        if "label" in manifest_df.columns and "label_id" in manifest_df.columns:
-            per_class = (
-                manifest_df.groupby(["label_id", "label"])
-                .size()
-                .reset_index(name="count")
-                .sort_values("label_id")
-            )
-            st.subheader("Per-class counts")
-            st.dataframe(per_class, width="stretch", hide_index=True)
-        elif "label" in manifest_df.columns:
-            st.subheader("Per-class counts")
-            st.dataframe(
-                manifest_df["label"]
-                .value_counts()
-                .rename_axis("label")
-                .reset_index(name="count"),
-                width="stretch",
-                hide_index=True,
-            )
+    st.subheader("Manifest table")
+    st.dataframe(manifest_df, width="stretch", hide_index=True, height=420)
 
-        if "segment" in manifest_df:
-            st.subheader("Segment mix")
-            segment_counts = (
-                manifest_df["segment"]
-                .value_counts()
-                .rename_axis("segment")
-                .reset_index(name="count")
-            )
-            st.dataframe(segment_counts, width="stretch", hide_index=True)
+    if {"image_path", "label", "t"}.issubset(manifest_df.columns):
+        st.subheader("Sample stream items")
+        sample_rows = manifest_df.head(6).to_dict(orient="records")
+        gallery_cols = st.columns(3)
+        for idx, row in enumerate(sample_rows):
+            with gallery_cols[idx % 3]:
+                image_path = Path(str(row["image_path"]))
+                if image_path.exists():
+                    st.image(
+                        str(image_path),
+                        caption=f"t={row['t']} | {row['label']}",
+                        width="stretch",
+                    )
+                st.caption(str(row.get("text", "")))
 
-        st.subheader("Manifest table")
-        st.dataframe(manifest_df, width="stretch", hide_index=True, height=420)
-
-        if {"image_path", "label", "t"}.issubset(manifest_df.columns):
-            st.subheader("Sample stream items")
-            sample_rows = manifest_df.head(6).to_dict(orient="records")
-            gallery_cols = st.columns(3)
-            for idx, row in enumerate(sample_rows):
-                with gallery_cols[idx % 3]:
-                    image_path = Path(str(row["image_path"]))
-                    if image_path.exists():
-                        st.image(
-                            str(image_path),
-                            caption=f"t={row['t']} | {row['label']}",
-                            width="stretch",
-                        )
-                    st.caption(str(row.get("text", "")))
-
-    with tab_scores:
-        st.caption(
+with tab_scores:
+    st.subheader(
+        "Per-Window Scores",
+        help=(
             "During the warm-up phase (the first `2 * window_size` samples for "
             "two-window detectors), no comparison window exists yet, so "
             "`window_start`, `window_end`, and `window_center` are all set to "
             "the current `t` and `drift_score` / `threshold` are NaN. Real "
             "window indices appear once the detector has enough history to "
             "compare adjacent windows."
-        )
-        score_summary_cols = st.columns(4)
-        score_summary_cols[0].metric("Windows", str(len(results_df)))
-        score_summary_cols[1].metric(
-            "Alarm windows",
-            str(int(results_df["is_drift"].sum())) if "is_drift" in results_df else "n/a",
-        )
-        score_summary_cols[2].metric(
-            "Alarm events",
-            str(int(results_df["is_alarm_event"].sum()))
-            if "is_alarm_event" in results_df
-            else "n/a",
-        )
-        score_summary_cols[3].metric(
-            "Selected detections",
-            str(int(results_df["is_selected_detection"].sum()))
-            if "is_selected_detection" in results_df
-            else "n/a",
-        )
-        st.dataframe(results_df, width="stretch", hide_index=True, height=460)
+        ),
+    )
+    score_summary_cols = st.columns(4)
+    score_summary_cols[0].metric("Windows", str(len(results_df)))
+    score_summary_cols[1].metric(
+        "Alarm windows",
+        str(int(results_df["is_drift"].sum())) if "is_drift" in results_df else "n/a",
+    )
+    score_summary_cols[2].metric(
+        "Alarm events",
+        str(int(results_df["is_alarm_event"].sum()))
+        if "is_alarm_event" in results_df
+        else "n/a",
+    )
+    score_summary_cols[3].metric(
+        "Selected detections",
+        str(int(results_df["is_selected_detection"].sum()))
+        if "is_selected_detection" in results_df
+        else "n/a",
+    )
+    st.dataframe(results_df, width="stretch", hide_index=True, height=460)
 
-    with tab_config:
-        if config_payload is None:
-            st.caption("No saved run configuration file was found for this run.")
-        else:
-            st.json(config_payload, expanded=False)
+with tab_config:
+    if config_payload is None:
+        st.caption("No saved run configuration file was found for this run.")
+    else:
+        st.json(config_payload, expanded=False)

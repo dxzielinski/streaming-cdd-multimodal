@@ -1,15 +1,11 @@
 from __future__ import annotations
 
 from typing import Optional
-
 import numpy as np
 from PIL import Image
 from sklearn.feature_extraction.text import HashingVectorizer
-
-
 import torch
 from torch import nn
-
 
 
 SUPPORTED_MODALITIES = ("image", "text", "both")
@@ -38,10 +34,14 @@ def _simple_image_embedding(
     thumb_arr = np.asarray(thumb, dtype=np.float32).reshape(-1) / 255.0
     hists = []
     for c in range(3):
-        hist, _ = np.histogram(arr[..., c], bins=hist_bins, range=(0.0, 1.0), density=True)
+        hist, _ = np.histogram(
+            arr[..., c], bins=hist_bins, range=(0.0, 1.0), density=True
+        )
         hists.append(hist.astype(np.float32))
     hist_feat = np.concatenate(hists, axis=0)
-    return np.concatenate([means, stds, thumb_arr, hist_feat], axis=0).astype(np.float32)
+    return np.concatenate([means, stds, thumb_arr, hist_feat], axis=0).astype(
+        np.float32
+    )
 
 
 def _unit_normalize(x: np.ndarray) -> np.ndarray:
@@ -141,7 +141,9 @@ class StreamingEmbedder:
                 raise ValueError("text is required for modality='text'")
             return _unit_normalize(self._embed_text(text))
         if image_path is None or text is None:
-            raise ValueError("image_path and text are both required for modality='both'")
+            raise ValueError(
+                "image_path and text are both required for modality='both'"
+            )
         img = _unit_normalize(self._embed_image(image_path)) * self.image_weight
         txt = _unit_normalize(self._embed_text(text)) * self.text_weight
         return _unit_normalize(np.concatenate([img, txt], axis=0))

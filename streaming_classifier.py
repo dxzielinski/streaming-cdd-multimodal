@@ -5,7 +5,20 @@ from time import perf_counter
 from typing import Any, Callable, Optional
 
 import numpy as np
-from river import compose, linear_model, multiclass, preprocessing
+
+SUPPORTED_CLASSIFIERS: tuple[str, ...] = (
+    "logistic_regression",
+    "hoeffding_tree",
+    "gaussian_nb",
+)
+
+CLASSIFIER_DESCRIPTIONS: dict[str, str] = {
+    "logistic_regression": (
+        "river: Pipeline(StandardScaler, OneVsRest(LogisticRegression))"
+    ),
+    "hoeffding_tree": "river: Pipeline(StandardScaler, HoeffdingTreeClassifier)",
+    "gaussian_nb": "river: Pipeline(StandardScaler, GaussianNB)",
+}
 
 
 def _embedding_to_features(x: np.ndarray) -> dict[str, float]:
@@ -13,18 +26,64 @@ def _embedding_to_features(x: np.ndarray) -> dict[str, float]:
     return {f"x{i}": float(v) for i, v in enumerate(x)}
 
 
-def make_default_river_model() -> Any:
-    """Pipeline used by both strategies: StandardScaler -> OneVsRest(LogisticRegression).
+def normalise_classifier_name(classifier: str) -> str:
+    key = str(classifier).strip().lower().replace("-", "_")
+    aliases = {
+        "lr": "logistic_regression",
+        "logistic": "logistic_regression",
+        "logreg": "logistic_regression",
+        "ht": "hoeffding_tree",
+        "hoeffding": "hoeffding_tree",
+        "tree": "hoeffding_tree",
+        "gnb": "gaussian_nb",
+        "gaussian": "gaussian_nb",
+        "naive_bayes": "gaussian_nb",
+        "gaussian_naive_bayes": "gaussian_nb",
+    }
+    key = aliases.get(key, key)
+    if key not in SUPPORTED_CLASSIFIERS:
+        choices = ", ".join(SUPPORTED_CLASSIFIERS)
+        raise ValueError(
+            f"Unsupported classifier {classifier!r}; choose one of: {choices}"
+        )
+    return key
+
+
+def make_river_model(classifier: str = "logistic_regression") -> Any:
+    """Build one of the supported river classifiers for dense embeddings.
 
     Wrapping LR in OneVsRest makes the same code path work for binary
     (cats-vs-dogs) and >2-class datasets (e.g. garbage-classification),
     and StandardScaler keeps the LR step well-conditioned given that
     embeddings (ResNet18 / hashed BoW) are not zero-mean unit-variance.
+    Hoeffding Tree and GaussianNB are exposed as direct streaming baselines
+    for the performance-drift benchmark.
     """
-    return compose.Pipeline(
-        preprocessing.StandardScaler(),
-        multiclass.OneVsRestClassifier(linear_model.LogisticRegression()),
+    key = normalise_classifier_name(classifier)
+    from river import (
+        compose,
+        linear_model,
+        multiclass,
+        naive_bayes,
+        preprocessing,
+        tree,
     )
+
+    scaler = preprocessing.StandardScaler()
+    if key == "logistic_regression":
+        model = multiclass.OneVsRestClassifier(linear_model.LogisticRegression())
+    elif key == "hoeffding_tree":
+        model = tree.HoeffdingTreeClassifier()
+    elif key == "gaussian_nb":
+        model = naive_bayes.GaussianNB()
+    else:  # pragma: no cover - normalise_classifier_name already validates.
+        raise AssertionError(f"Unhandled classifier key: {key}")
+    return compose.Pipeline(scaler, model)
+
+
+def make_default_river_model() -> Any:
+    """Pipeline used by default: StandardScaler -> OneVsRest(LogisticRegression)."""
+    return make_river_model("logistic_regression")
 
 
 @dataclass
@@ -82,7 +141,7 @@ class DualPerformanceMonitor:
     Both models are river ``OneVsRest(LogisticRegression)`` pipelines (see
     :func:`make_default_river_model`) and are scored prequentially: for every
     arriving sample we predict first (test) and then update with the true
-    label (train). The stream is the only training source - there is no
+    label (train). The stream is the only training source -- there is no
     held-out fit phase.
 
     Drift handling diverges between the two strategies:
@@ -110,9 +169,14 @@ class DualPerformanceMonitor:
     def __init__(
         self,
         *,
+        classifier: str = "logistic_regression",
         model_factory: Optional[Callable[[], Any]] = None,
     ) -> None:
-        self._make_model = model_factory or make_default_river_model
+        self.classifier_key = normalise_classifier_name(classifier)
+        self.classifier_description = CLASSIFIER_DESCRIPTIONS[self.classifier_key]
+        self._make_model = model_factory or (
+            lambda: make_river_model(self.classifier_key)
+        )
         self.case1_model: Any = self._make_model()
         self.case2_model: Any = self._make_model()
         self.shadow_model: Optional[Any] = None
@@ -171,7 +235,9 @@ class DualPerformanceMonitor:
         shadow_predict_time_ms: float
         shadow_update_time_ms: float
 
-    def case1_step(self, embedding: np.ndarray, true_label: int) -> "DualPerformanceMonitor.Case1Outcome":
+    def case1_step(
+        self, embedding: np.ndarray, true_label: int
+    ) -> "DualPerformanceMonitor.Case1Outcome":
         """Run prequential test-then-train on the never-reset model.
 
         Must be called before ``case2_step`` for the same sample, because the
@@ -278,7 +344,12 @@ class DualPerformanceMonitor:
         is_warning: bool,
         is_drift: bool,
     ) -> PerformanceStep:
-        """Convenience wrapper."""
+        """Convenience wrapper for callers that already know the flags.
+
+        The streaming pipeline does not use this -- it interleaves case 1
+        with the detector update -- but tests and exploratory scripts can
+        treat the monitor as a single black-box step.
+        """
         c1 = self.case1_step(embedding, true_label)
         c2 = self.case2_step(c1, is_warning=is_warning, is_drift=is_drift)
         return PerformanceStep(
@@ -300,7 +371,8 @@ class DualPerformanceMonitor:
 
     def summary(self) -> dict[str, Any]:
         return {
-            "model_class": "river: Pipeline(StandardScaler, OneVsRest(LogisticRegression))",
+            "classifier": self.classifier_key,
+            "model_class": self.classifier_description,
             "n_seen": int(self._n_seen),
             "case1_accuracy": float(self.case1_running_accuracy),
             "case2_accuracy": float(self.case2_running_accuracy),

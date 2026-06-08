@@ -1,0 +1,4 @@
+source_index,source_name,source_root,class_names
+0,Faces,/home/dxzielinski/Downloads/archive/Faces,Fake faces|Real faces
+1,PetImages,/home/dxzielinski/Downloads/archive/PetImages,Cat|Dog
+2,GarbageDataset,/home/dxzielinski/Downloads/archive/GarbageDataset,battery|biological|cardboard|clothes|glass|metal|paper|plastic|shoes|trash

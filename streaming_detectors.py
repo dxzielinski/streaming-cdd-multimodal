@@ -7,11 +7,9 @@ from dataclasses import dataclass, field
 from typing import Any, Optional
 
 import numpy as np
-import torch
-from river import drift
-from river.drift import binary
 
 
+# Result schema
 @dataclass
 class DetectorStep:
     """One detector update result.
@@ -45,8 +43,13 @@ class DetectorStep:
         return out
 
 
+# Abstract base
 class StreamingDriftDetector(ABC):
-    """Compare adjacent windows of streaming embeddings to detect concept drift."""
+    """Compare adjacent windows of streaming embeddings to detect concept drift.
+
+    No reference set, no offline threshold fit: every quantity is derived from
+    the stream as it arrives.
+    """
 
     name: str = "base"
     has_warning: bool = False
@@ -60,6 +63,7 @@ class StreamingDriftDetector(ABC):
     def update(self, embedding: np.ndarray, t: int) -> DetectorStep: ...
 
 
+# Helpers
 def _frechet_distance_lowrank(
     prev: np.ndarray, curr: np.ndarray, *, device: str = "cpu"
 ) -> float:
@@ -79,6 +83,8 @@ def _frechet_distance_lowrank(
     That replaces an O(D^3) Schur-based sqrtm with an O(min(n,m)^3) SVD on an
     n x m matrix, and `torch.linalg.svdvals` runs on CUDA.
     """
+    import torch
+
     n = int(prev.shape[0])
     m = int(curr.shape[0])
     if n == 0 or m == 0:
@@ -131,7 +137,7 @@ class _TwoWindowDetector(StreamingDriftDetector, ABC):
     """Maintain two adjacent sliding windows of embeddings and compare them.
 
     The decision threshold is derived online: we take a quantile of the
-    distance scores observed so far.
+    distance scores observed so far. There is no reference set.
     """
 
     def __init__(
@@ -349,6 +355,8 @@ class RiverKSWINDetector(_RiverScalarDetector):
         super().__init__(projection=projection, ewma_alpha=ewma_alpha)
 
     def _make_detector(self):
+        from river import drift
+
         return drift.KSWIN(
             alpha=self._alpha,
             window_size=max(2 * self._stat_size, self._window_size),
@@ -380,15 +388,20 @@ class RiverADWINDetector(_RiverScalarDetector):
         grace_period: int = 10,
         projection: str = "centroid_dist",
         ewma_alpha: float = 0.01,
+        recent_window_size: int = 50,
     ):
         self._delta = float(delta)
         self._clock = int(clock)
         self._max_buckets = int(max_buckets)
         self._min_window_length = int(min_window_length)
         self._grace_period = int(grace_period)
+        self._recent_window_size = int(recent_window_size)
+        self._buffer: deque[float] = deque(maxlen=2 * self._recent_window_size)
         super().__init__(projection=projection, ewma_alpha=ewma_alpha)
 
     def _make_detector(self):
+        from river import drift
+
         return drift.ADWIN(
             delta=self._delta,
             clock=self._clock,
@@ -398,7 +411,37 @@ class RiverADWINDetector(_RiverScalarDetector):
         )
 
     def _score_and_threshold(self, value: float) -> tuple[float, float]:
-        return float(self._detector.estimation), float("nan")
+        v = float(value)
+        self._buffer.append(v)
+        n = len(self._buffer)
+        if n < 2 * self._min_window_length + 2:
+            return 0.0, float("nan")
+
+        arr = np.fromiter(self._buffer, dtype=np.float64, count=n)
+        half = n // 2
+        w0 = arr[:half]
+        w1 = arr[half:]
+        delta_mean = abs(float(w0.mean()) - float(w1.mean()))
+        sample_var = max(float(arr.var(ddof=0)), 0.0)
+
+        log_n = float(np.log(max(float(n), 2.0)))
+        if log_n <= 0.0:
+            return delta_mean, float("nan")
+        arg = 2.0 * log_n / self._delta
+        delta_prime = float(np.log(max(arg, 1.0 + 1e-9)))
+        if delta_prime <= 0.0:
+            return delta_mean, float("nan")
+
+        n0 = float(len(w0))
+        n1 = float(len(w1))
+        denom_n0 = max(n0 - float(self._min_window_length) + 1.0, 1.0)
+        denom_n1 = max(n1 - float(self._min_window_length) + 1.0, 1.0)
+        m_recip = 1.0 / denom_n0 + 1.0 / denom_n1
+        epsilon = float(
+            np.sqrt(2.0 * m_recip * sample_var * delta_prime)
+            + (2.0 / 3.0) * delta_prime * m_recip
+        )
+        return delta_mean, epsilon
 
 
 class RiverPageHinkleyDetector(_RiverScalarDetector):
@@ -424,6 +467,8 @@ class RiverPageHinkleyDetector(_RiverScalarDetector):
         super().__init__(projection=projection, ewma_alpha=ewma_alpha)
 
     def _make_detector(self):
+        from river import drift
+
         return drift.PageHinkley(
             min_instances=self._min_instances,
             delta=self._delta,
@@ -466,6 +511,8 @@ class RiverHDDMWDetector(_RiverScalarDetector):
         super().__init__(projection=projection, ewma_alpha=ewma_alpha)
 
     def _make_detector(self):
+        from river.drift import binary
+
         return binary.HDDM_W(
             drift_confidence=self._drift_confidence,
             warning_confidence=self._warning_confidence,
@@ -477,21 +524,21 @@ class RiverHDDMWDetector(_RiverScalarDetector):
         return float(value), float("nan")
 
 
-# -----------------------------
 # Factory
-# -----------------------------
 class DriftDetectorFactory:
-    """Factory for streaming concept-drift detectors that compare adjacent windows."""
+    """Factory for streaming concept-drift detectors that compare adjacent windows.
+
+    Register new detectors with `register(...)` to extend.
+    """
 
     AVAILABLE: dict[str, str] = {
         "mmd": "Adjacent-window MMD^2 with RBF kernel (median heuristic).",
         "frechet": "Adjacent-window Frechet distance between Gaussian window fits.",
         "kswin": "river.drift.KSWIN on a scalar projection of each embedding.",
-        "adwin": "river.drift.ADWIN.",
-        "page_hinkley": "river.drift.PageHinkley.",
-        "hddm_w": "river.drift.binary.HDDM_W.",
+        "adwin": "river.drift.ADWIN on a scalar projection of each embedding.",
+        "page_hinkley": "river.drift.PageHinkley on a scalar projection of each embedding.",
+        "hddm_w": "river.drift.binary.HDDM_W on a scalar projection (supports warnings).",
     }
-
     # Detectors whose decision rule operates on the embedding directly (so they
     # only make sense for "data" drift) vs. detectors that consume a scalar
     # signal (which can be a projection of the embedding for "data" drift, or a
